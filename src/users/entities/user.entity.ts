@@ -13,22 +13,22 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique:true}) // valida que dos personas no puedan tener el mismo email
+    @Column( {type:"varchar",unique:true}) // valida que dos personas no puedan tener el mismo email
     mail: string;
 
-    @Column()
+    @Column({type:"varchar"})
     name: string;
 
-    @Column()
+    @Column({type:"varchar"})
     password: string;
 
     @Column({type:"enum",enum:UserRole,default:UserRole.none}) // solo acepta valores del enum,si se crea un usuario sin rol pondrá None
     role: UserRole;
 
-    @Column({default:"es"})
+    @Column({type: "varchar", default:"es"})
     language:string;
 
-    @Column({ default: false }) //requisito de validación del admin
+    @Column({type:"boolean", default: false }) //requisito de validación del admin
     isValidated: boolean;
 
 
