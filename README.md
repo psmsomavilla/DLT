@@ -26,6 +26,7 @@ Funcionalidades realizadas
 ### Documentación con Swagger
 
   Instalar dependencia 
+  
   Configuración de la interfaz gráfica en main.ts
 
 
