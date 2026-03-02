@@ -18,6 +18,16 @@ Funcionalidades realizadas
   
   Atributos de la clase user
 
+  Creación de user.module.ts (configuracion del modulo) , user.service.ts (seeder y lógica) y user.controller.ts(rutas get y post)
+
+---
+
+### Documentación con Swagger
+
+
+
+  
+
   
 
   
