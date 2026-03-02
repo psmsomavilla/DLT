@@ -9,6 +9,7 @@ Funcionalidades realizadas
   Docker configurado (creado el archivo docker.yml que levanta nuestra bd) con PostgreSQL
   
   NestJS configurado , instalación de ORM, ubicacion(app.module.ts)
+
   
 ---
 
@@ -24,6 +25,8 @@ Funcionalidades realizadas
 
 ### Documentación con Swagger
 
+  Instalar dependencia 
+  Configuración de la interfaz gráfica en main.ts
 
 
   
