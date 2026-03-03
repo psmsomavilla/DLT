@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserModule} from "./users/user.module";
 import {CatsModule} from "./cats/cats.module";
+import { BreedsModule } from './breeds/breeds.module';
 
 
 
@@ -18,7 +19,8 @@ import {CatsModule} from "./cats/cats.module";
       synchronize: true,
     }),
       UserModule,
-      CatsModule, // importamos en module user
+      CatsModule,
+      BreedsModule,
   ],
 })
 export class AppModule {}
