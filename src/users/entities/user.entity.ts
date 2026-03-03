@@ -13,31 +13,31 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column( {type:"varchar",unique:true}) // valida que dos personas no puedan tener el mismo email
+    @Column( {unique:true, nullable: false}) // valida que dos personas no puedan tener el mismo email
     mail: string;
 
-    @Column({type:"varchar"})
+    @Column()
     name: string;
 
-    @Column({type:"varchar"})
+    @Column({nullable:false})
     password: string;
 
-    @Column({type:"enum",enum:UserRole,default:UserRole.none}) // solo acepta valores del enum,si se crea un usuario sin rol pondrá None
+    @Column({enum:UserRole,default:UserRole.none}) // solo acepta valores del enum,si se crea un usuario sin rol pondrá None
     role: UserRole;
 
-    @Column({type: "varchar", default:"es"})
+    @Column({default:"es"})
     language:string;
 
     @Column({type:"boolean", default: false }) //requisito de validación del admin
     isValidated: boolean;
 
-
+    //fecha creación
     @CreateDateColumn()
     created_at: Date;
-
+    //update automático
     @UpdateDateColumn()
     updated_at: Date;
-
+    //guarda fecha de borrado
     @DeleteDateColumn()
     deleted_at: Date;
 

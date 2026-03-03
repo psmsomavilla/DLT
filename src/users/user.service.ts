@@ -4,12 +4,17 @@ import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
 
 
+
 // esta clase se podra compartir con otras
 @Injectable()
 export class UserService implements OnModuleInit{
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     }
     // ahora tenemos acceso a la tabla User
+
+
+
+
 
 
     // ejecutamos el modulo y se arranca automáticamente
@@ -51,5 +56,9 @@ export class UserService implements OnModuleInit{
     findAll(){
         return this.userRepository.find();
     }
+
+
+
+
 
 }

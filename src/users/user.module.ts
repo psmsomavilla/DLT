@@ -5,7 +5,7 @@ import {UserService} from "./user.service";
 import {UserController} from "./user.controller";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User])], // vincula la entidad User para poder usar la tabla User en la bd
+    imports: [TypeOrmModule.forFeature([User])], // vincula la entidad User a nuestra bd para poder verla
     providers: [UserService],
     controllers: [UserController],
     exports: [UserService],

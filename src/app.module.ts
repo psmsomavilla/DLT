@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import {UserModule} from "./users/user.module"; // convierte nuestro codigo TS en tablas SQL
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {UserModule} from "./users/user.module";
+import {CatsModule} from "./cats/cats.module";
+
+
 
 @Module({
   imports: [
@@ -14,7 +17,8 @@ import {UserModule} from "./users/user.module"; // convierte nuestro codigo TS e
       autoLoadEntities: true,
       synchronize: true,
     }),
-      UserModule, // importamos en module user
+      UserModule,
+      CatsModule, // importamos en module user
   ],
 })
 export class AppModule {}
