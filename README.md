@@ -29,6 +29,10 @@ Funcionalidades realizadas
   
   Configuración de la interfaz gráfica en main.ts
 
+---
+
+### Creación de las entidades cats y breeds
+
 
   
 
