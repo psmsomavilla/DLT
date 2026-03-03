@@ -3,6 +3,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserModule} from "./users/user.module";
 import {CatsModule} from "./cats/cats.module";
 import { BreedsModule } from './breeds/breeds.module';
+import { PetsModule } from './pets/pets.module';
 
 
 
@@ -21,6 +22,7 @@ import { BreedsModule } from './breeds/breeds.module';
       UserModule,
       CatsModule,
       BreedsModule,
+      PetsModule,
   ],
 })
 export class AppModule {}
