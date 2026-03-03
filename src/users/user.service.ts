@@ -3,6 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
 import * as bcrypt from 'bcrypt';
+import {CreateUserDto} from "./dto/create-user.dto";
 
 
 
@@ -33,11 +34,11 @@ export class UserService implements OnModuleInit{
 
         if(!exists){
             //encriptación de la pass
-            const protect = await bcrypt.hash("1234", 10);
+            const passAdmin = await bcrypt.hash("1234", 10);
 
             const admin = this.userRepository.create({
                 mail:adminEmail,
-                password: protect,
+                password: passAdmin,
                 name: "admin",
                 role: UserRole.admin,
                 isValidated: true,
@@ -50,8 +51,6 @@ export class UserService implements OnModuleInit{
         }
 
     }
-
-
 
 
 
@@ -87,6 +86,32 @@ export class UserService implements OnModuleInit{
          user.isValidated=status; // cambio de validacion
          return await this.userRepository.save(user);
      }
+
+
+    /**
+     * creacion de usuario desde el registro
+     * @param createUserDto
+     */
+    async createUser(createUserDto: CreateUserDto){
+         // encriptamos la pass que viene dl DTO
+         const passUser = await bcrypt.hash(createUserDto.password, 10);
+
+         // creamos la entidad
+         const newUser = this.userRepository.create({
+             ... createUserDto,
+             password: passUser,
+             role:UserRole.user,
+             isValidated:false,
+
+         })
+
+        return await this.userRepository.save(newUser);
+
+
+
+
+     }
+
 
 
 
