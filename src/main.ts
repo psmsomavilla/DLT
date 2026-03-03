@@ -17,6 +17,6 @@ async function bootstrap() {
   SwaggerModule.setup("api", app, document);
 
   await app.listen(3000);
-  console.log("Documentación en : http://localhost:3000/api");
+  console.log("Swagger en : http://localhost:3000/api");
 }
 bootstrap();

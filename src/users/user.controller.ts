@@ -1,4 +1,4 @@
-import {Controller, Get} from "@nestjs/common";
+import {Controller, Get, Param} from "@nestjs/common";
 import {UserService} from "./user.service";
 
 @Controller()
@@ -9,5 +9,14 @@ export class UserController {
     @Get()
     findAll(){
         return this.userService.findAll();
+    }
+
+    /**
+     * busca un usuario por email
+     * @param email
+     */
+    @Get('email/:email')
+    async findOneByEmail(@Param('email') email: string) {
+        return await this.userService.validate(email);
     }
 }

@@ -1,29 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCatDto } from './dto/create-cat.dto';
-import { UpdateCatDto } from './dto/update-cat.dto';
-
+import {Breed} from "../breeds/entities/breed.entity";
+import {HttpService} from "@nestjs/axios";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Cat} from "./entities/cat.entity";
+import {Repository} from "typeorm";
+import {Injectable} from "@nestjs/common";
 
 
 
 @Injectable()
-export class CatsService {
-  create(createCatDto: CreateCatDto) {
-    return 'This action adds a new cat';
-  }
+export class CatsService{
 
-  findAll() {
-    return `This action returns all cats`;
-  }
+constructor(
+    @InjectRepository(Cat)
+    private readonly catRepository: Repository<Cat>, // permiso para guardar en la bd gatos
 
-  findOne(id: number) {
-    return `This action returns a #${id} cat`;
-  }
+    @InjectRepository(Breed)
+    private readonly breedRepository: Repository<Breed>, // permiso apra guardar razas
 
-  update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
-  }
+    private readonly httpService: HttpService,
 
-  remove(id: number) {
-    return `This action removes a #${id} cat`;
-  }
+){}
+
+
+
+
+
+
+
 }

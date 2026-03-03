@@ -2,6 +2,7 @@ import {Injectable, OnModuleInit} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
+import * as bcrypt from 'bcrypt';
 
 
 
@@ -14,10 +15,8 @@ export class UserService implements OnModuleInit{
 
 
 
-
-
-
     // ejecutamos el modulo y se arranca automáticamente
+    // ponemos aqui la seed para que el user admin se cree automaticamente al arrancar
     async onModuleInit(){
         await this.seedAdmin();
 
@@ -33,22 +32,30 @@ export class UserService implements OnModuleInit{
         // preguntamos a la bd si el admin mail existe
 
         if(!exists){
+            //encriptación de la pass
+            const protect = await bcrypt.hash("1234", 10);
 
             const admin = this.userRepository.create({
                 mail:adminEmail,
-                password: "1234",
+                password: protect,
                 name: "admin",
                 role: UserRole.admin,
                 isValidated: true,
 
             });
             await this.userRepository.save(admin);
-            console.log("Usuario admin creado correctamente");
+            console.log("Usuario admin creado");
 
 
         }
 
     }
+
+
+
+
+
+    // MÉTODOS PARA EL ADMIN
 
     /**
      * Metodo que sirve para que el admin pueda listar al resto de usuarios
@@ -57,6 +64,29 @@ export class UserService implements OnModuleInit{
         return this.userRepository.find();
     }
 
+
+    /**
+     * autenticacion del login validamos la contrañsea
+     * @param mail
+     */
+     async validate(mail:string){
+        return await this.userRepository.findOne({where:{mail},
+        select:["id","mail","password","role","isValidated","name"]});
+
+     }
+
+
+    /**
+     * método para conceder o denegar acceso
+     * @param id
+     * @param status
+     */
+     async validateUser(id: number,status:boolean){
+         const user = await this.userRepository.findOneBy({id});
+         if(!user) return null; // si el id no existe devolvemos null
+         user.isValidated=status; // cambio de validacion
+         return await this.userRepository.save(user);
+     }
 
 
 
