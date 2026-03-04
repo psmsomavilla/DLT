@@ -56,6 +56,10 @@ export class UserService implements OnModuleInit{
 
     // MÉTODOS PARA EL ADMIN
 
+    // me falta uno para listar los que estan pendientes
+
+
+
     /**
      * Metodo que sirve para que el admin pueda listar al resto de usuarios
      */
@@ -73,43 +77,6 @@ export class UserService implements OnModuleInit{
         select:["id","mail","password","role","isValidated","name"]});
 
      }
-
-
-    /**
-     * método para conceder o denegar acceso
-     * @param id
-     * @param status
-     */
-     async validateUser(id: number,status:boolean){
-         const user = await this.userRepository.findOneBy({id});
-         if(!user) return null; // si el id no existe devolvemos null
-         user.isValidated=status; // cambio de validacion
-         return await this.userRepository.save(user);
-     }
-
-
-    /**
-     * creacion de usuario desde el registro
-     * @param createUserDto
-     */
-    async createUser(createUserDto: CreateUserDto){
-         // encriptamos la pass que viene dl DTO
-         const passUser = await bcrypt.hash(createUserDto.password, 10);
-
-         // creamos la entidad
-         const newUser = this.userRepository.create({
-             ... createUserDto,
-             password: passUser,
-             role:UserRole.user,
-             isValidated:false,
-
-         })
-
-        return await this.userRepository.save(newUser);
-
-
-     }
-
 
 
 

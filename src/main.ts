@@ -11,8 +11,8 @@ async function bootstrap() {
       .setTitle("TECHNICAL TEST DLTCAT")
       .setDescription("API DE TECHNICAL TEST DLTCAT")
       .setVersion("1.0")
-      .addTag("auth")
-      .build();
+      .build()
+
 
   const document = SwaggerModule.createDocument(app, config); //escaneo de todos los controllers
   SwaggerModule.setup("api", app, document); // creamos la página web

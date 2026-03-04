@@ -1,6 +1,6 @@
-import {Body, Controller, Get, Param, Post} from "@nestjs/common";
+import {Controller, Get, Param} from "@nestjs/common";
 import {UserService} from "./user.service";
-import {CreateUserDto} from "./dto/create-user.dto";
+
 
 
 @Controller("users")
@@ -23,8 +23,4 @@ export class UserController {
     }
 
 
-    @Post("register")
-    async register(@Body() createUserDto: CreateUserDto) { // estoy pidiendo que para registrarse utilize los atributos del dto
-        return await this.userService.createUser(createUserDto);
-    }
 }

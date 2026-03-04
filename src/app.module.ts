@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
+import {AuthModule} from "./auth/auth.module";
 import {UserModule} from "./users/user.module";
-import {CatsModule} from "./cats/cats.module";
-import { BreedsModule } from './breeds/breeds.module';
-import { PetsModule } from './pets/pets.module';
-import { AuthModule } from './auth/auth.module';
+import { VerificationModule } from './verification/verification.module';
+
+
+
 
 
 /**
@@ -23,11 +24,11 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
       //Módulos
-      UserModule,
-      CatsModule,
-      BreedsModule,
-      PetsModule,
       AuthModule,
+      UserModule,
+      VerificationModule,
+
+
   ],
 })
 export class AppModule {}
