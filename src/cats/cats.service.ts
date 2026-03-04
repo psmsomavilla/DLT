@@ -18,8 +18,13 @@ constructor(
     private readonly breedRepository: Repository<Breed>, // permiso apra guardar razas
 
     private readonly httpService: HttpService,
+) {}
 
-){}
+    async findAll() {
+        return await this.catRepository.find({
+            relations: ['breed'],
+        });
+    }
 
 
 

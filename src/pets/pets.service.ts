@@ -8,11 +8,10 @@ import {Repository} from "typeorm";
 
 @Injectable()
 export class PetsService {
-  @InjectRepository(Pet)
-  private readonly petsRepository: Repository<Pet>;
+  constructor(@InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,@InjectRepository(Cat)
+  private readonly catRepository: Repository<Cat>) {
+  }
 
-  @InjectRepository(Cat)
-  private readonly catRepository: Repository<Cat>;
 
 
 
@@ -22,7 +21,12 @@ export class PetsService {
     });
   }
 
-
+  /**
+   * vinculo entre cat - user a través de pet
+   * @param userId
+   * @param catId
+   * @param petName
+   */
   async createPet(userId: number, catId: number,  petName:string) {
     // buscamos el gato en la bd por id
     const cat = await this.catRepository.findOneBy({id: catId});

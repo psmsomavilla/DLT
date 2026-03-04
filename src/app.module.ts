@@ -4,12 +4,15 @@ import {UserModule} from "./users/user.module";
 import {CatsModule} from "./cats/cats.module";
 import { BreedsModule } from './breeds/breeds.module';
 import { PetsModule } from './pets/pets.module';
+import { AuthModule } from './auth/auth.module';
 
 
-
+/**
+ * Corazón de de la aplicación
+ */
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot({ // traduce el codigo a sql y al revés
       type: 'postgres',
       host: 'localhost',
       port: 5432,
@@ -19,10 +22,12 @@ import { PetsModule } from './pets/pets.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+      //Módulos
       UserModule,
       CatsModule,
       BreedsModule,
       PetsModule,
+      AuthModule,
   ],
 })
 export class AppModule {}

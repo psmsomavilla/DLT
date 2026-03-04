@@ -9,7 +9,7 @@ export class CreateUserDto{
     @IsEmail({},{message:"El mail no es válido"})
     mail:string;
 
-    @MinLength(4,{message: "La contraseña debe de tener al menos 4 caracteres"})
+    @MinLength(6,{message: "La contraseña debe de tener al menos 6 caracteres"})
     password:string;
 
     @IsOptional()

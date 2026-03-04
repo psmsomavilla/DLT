@@ -3,7 +3,7 @@ import {UserService} from "./user.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 
 
-@Controller()
+@Controller("users")
 export class UserController {
     constructor(private readonly userService: UserService) {
     }
@@ -24,7 +24,7 @@ export class UserController {
 
 
     @Post("register")
-    async register(@Body() createUserDto: CreateUserDto) {
+    async register(@Body() createUserDto: CreateUserDto) { // estoy pidiendo que para registrarse utilize los atributos del dto
         return await this.userService.createUser(createUserDto);
     }
 }
