@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSeedDto } from './dto/create-seed.dto';
-import { UpdateSeedDto } from './dto/update-seed.dto';
+import {Injectable, OnModuleInit} from '@nestjs/common';
+import {UserService} from "../users/user.service";
+import {ConfigService} from "@nestjs/config";
+import {UserRole} from "../users/entities/user.entity";
+import * as bcrypt from 'bcrypt';
+import * as process from "node:process";
 
 @Injectable()
-export class SeedService {
-  create(createSeedDto: CreateSeedDto) {
-    return 'This action adds a new seed';
+export class SeedService implements OnModuleInit {
+  constructor(private readonly userService: UserService, private readonly configService: ConfigService) {
+
   }
 
-  findAll() {
-    return `This action returns all seed`;
+  async onModuleInit() {
+    await this.Seed();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} seed`;
+  private async Seed() {
+
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPass = process.env.ADMIN_PASSWORD;
+    const adminName = process.env.ADMIN_NAME;
+
+
+    // Validamos que existan las variables en el .env
+    if (!adminEmail || !adminPass) {
+      console.error("error");
+      return;
+    }
+
+    //Verificamos si ya existe el admin
+    const exists = await this.userService.validate(adminEmail);
+
+    if (!exists) {
+      // Hash de la contraseña
+      const hashedPass = await bcrypt.hash(adminPass, 10);
+
+      //Creamos el admin
+      await this.userService.createAdmin({
+        mail: adminEmail,
+        password: hashedPass,
+        name: adminName,
+        role: UserRole.admin,
+        isValidated: true
+      });
+      console.log("admin creado");
+    } else {
+      console.log("admin ya existe.");
+    }
   }
 
-  update(id: number, updateSeedDto: UpdateSeedDto) {
-    return `This action updates a #${id} seed`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} seed`;
-  }
 }

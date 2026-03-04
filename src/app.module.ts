@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {AuthModule} from "./auth/auth.module";
 import {UserModule} from "./users/user.module";
-import { VerificationModule } from './verification/verification.module';
 import { SeedModule } from './seed/seed.module';
 
 
@@ -27,7 +26,6 @@ import { SeedModule } from './seed/seed.module';
       //Módulos
       AuthModule,
       UserModule,
-      VerificationModule,
       SeedModule,
 
 

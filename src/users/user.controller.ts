@@ -1,5 +1,8 @@
-import {Controller, Get, Param} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {UserService} from "./user.service";
+import {User} from "./entities/user.entity";
+import {CreateUserDto} from "./dto/create-user.dto";
+;
 
 
 
@@ -8,6 +11,9 @@ export class UserController {
     constructor(private readonly userService: UserService) {
     }
 
+    /**
+     * devuelve todos los usuarios
+     */
     @Get()
     findAll(){
         return this.userService.findAll();
@@ -21,6 +27,33 @@ export class UserController {
     async findOneByEmail(@Param('email') email: string) {
         return await this.userService.validate(email);
     }
+
+    /**
+     * Crear usuario
+     * @param createUserDto
+     */
+    @Post()
+    async create(@Body() createUserDto: CreateUserDto) {
+        return await this.userService.create(createUserDto);
+    }
+
+    /**
+     * editar usuario
+     * @param id
+     * @param updateData
+     */
+    @Put(':id')
+    async update(@Param('id') id: string,@Body()updateData:Partial<User>) {
+        return await  this.userService.update(+id,updateData);
+    }
+
+
+    @Delete(':id')
+    async delete(@Param('id') id: string) {
+        return await  this.userService.remove(+id);
+    }
+
+
 
 
 }

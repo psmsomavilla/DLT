@@ -2,63 +2,28 @@ import {Injectable, OnModuleInit} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
-import * as bcrypt from 'bcrypt';
 import {CreateUserDto} from "./dto/create-user.dto";
+import * as bcrypt from 'bcrypt';
 
 
 
 // esta clase se podra compartir con otras
 @Injectable()
-export class UserService implements OnModuleInit{
+export class UserService  {
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     }
     // ahora tenemos acceso a la tabla User
 
 
 
-    // ejecutamos el modulo y se arranca automáticamente
-    // ponemos aqui la seed para que el user admin se cree automaticamente al arrancar
-    async onModuleInit(){
-        await this.seedAdmin();
 
+
+
+
+    async createAdmin(adminData: Partial<User>) {
+        const newAdmin = this.userRepository.create(adminData);
+        return await this.userRepository.save(newAdmin);
     }
-
-    /**
-     * logica para la creacion de nuestro admin
-     * @private
-     */
-    private async seedAdmin(){
-        const adminEmail = "admin@admin.com"
-        const exists = await this.userRepository.findOne({where:{mail:adminEmail}});
-        // preguntamos a la bd si el admin mail existe
-
-        if(!exists){
-            //encriptación de la pass
-            const passAdmin = await bcrypt.hash("1234", 10);
-
-            const admin = this.userRepository.create({
-                mail:adminEmail,
-                password: passAdmin,
-                name: "admin",
-                role: UserRole.admin,
-                isValidated: true,
-
-            });
-            await this.userRepository.save(admin);
-            console.log("Usuario admin creado");
-
-
-        }
-
-    }
-
-
-    //-----MÉTODOS PARA EL ADMIN----
-
-
-
-
-    // falta uno para listar los que estan pendientes
 
 
 
@@ -80,6 +45,33 @@ export class UserService implements OnModuleInit{
 
      }
 
+
+    async update(id: number, updateData: Partial<User>) {
+        await this.userRepository.update(id, updateData);
+        return this.userRepository.findOneBy({ id });
+    }
+
+    async remove(id: number) {
+        return await this.userRepository.delete(id);
+    }
+
+
+    async create(createUserDto: CreateUserDto) {
+
+        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
+
+        const newUser = this.userRepository.create({
+            name: createUserDto.name,
+            mail: createUserDto.mail,
+            password: hashedPassword,
+            role: (createUserDto.role as unknown as UserRole) || UserRole.none,
+            isValidated: false
+        });
+
+
+        return await this.userRepository.save(newUser);
+    }
 
 
 
