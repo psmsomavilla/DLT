@@ -31,7 +31,7 @@ Funcionalidades realizadas
 
 ---
 
-### Creación de las entidades cats y breeds
+
 
 
   
