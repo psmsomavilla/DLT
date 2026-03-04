@@ -3,6 +3,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {AuthModule} from "./auth/auth.module";
 import {UserModule} from "./users/user.module";
 import { VerificationModule } from './verification/verification.module';
+import { SeedModule } from './seed/seed.module';
 
 
 
@@ -27,6 +28,7 @@ import { VerificationModule } from './verification/verification.module';
       AuthModule,
       UserModule,
       VerificationModule,
+      SeedModule,
 
 
   ],

@@ -53,10 +53,12 @@ export class UserService implements OnModuleInit{
     }
 
 
+    //-----MÉTODOS PARA EL ADMIN----
 
-    // MÉTODOS PARA EL ADMIN
 
-    // me falta uno para listar los que estan pendientes
+
+
+    // falta uno para listar los que estan pendientes
 
 
 
@@ -69,7 +71,7 @@ export class UserService implements OnModuleInit{
 
 
     /**
-     * autenticacion del login validamos la contrañsea
+     * valida que un email exista
      * @param mail
      */
      async validate(mail:string){
