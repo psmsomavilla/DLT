@@ -101,6 +101,15 @@ export class UserService  {
         return await this.userRepository.findOneBy({mail});
     }
 
+    async activarUser(id:number){
+        const user = await this.userRepository.findOneBy({id});
+
+        user.isValidated = true;
+        return await this.userRepository.save(user);
+
+
+
+    }
 
 
 
