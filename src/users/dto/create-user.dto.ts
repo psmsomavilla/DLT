@@ -1,4 +1,5 @@
-import {IsEmail, IsOptional, IsString, MinLength} from "class-validator";
+import {IsEmail, IsEnum, IsOptional, IsString, MinLength} from "class-validator";
+import {UserRole} from "../entities/user.entity";
 
 // los dto nos aseguran que los datos que entran en la bd sean correctos
 
@@ -12,7 +13,7 @@ export class CreateUserDto{
     @MinLength(6,{message: "La contraseña debe de tener al menos 6 caracteres"})
     password:string;
 
-    @IsOptional()
+    @IsEnum(UserRole)
     role?:string;
 
 

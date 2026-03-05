@@ -2,6 +2,7 @@ import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {User} from "./entities/user.entity";
 import {CreateUserDto} from "./dto/create-user.dto";
+import {UpdateUserDto} from "./dto/update-user.dto";
 ;
 
 
@@ -53,8 +54,8 @@ export class UserController {
      * @param updateData
      */
     @Put(':id')
-    async update(@Param('id') id: string,@Body()updateData:Partial<User>) {
-        return await  this.userService.update(+id,updateData);
+    async update(@Param('id') id: string,@Body()updateData:UpdateUserDto) {
+        return await  this.userService.update(+id,updateData as Partial<User>);
     }
 
     /**

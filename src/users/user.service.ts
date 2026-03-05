@@ -1,9 +1,10 @@
-import {Injectable, OnModuleInit} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
 import {CreateUserDto} from "./dto/create-user.dto";
 import * as bcrypt from 'bcrypt';
+
 
 
 
@@ -91,6 +92,16 @@ export class UserService  {
         const user = await this.userRepository.findOneBy({ id });
         return user;
     }
+
+    /**
+     * metodo que busca por email
+     * @param mail
+     */
+    async buscarPorMail(mail:string){
+        return await this.userRepository.findOneBy({mail});
+    }
+
+
 
 
 }
