@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {User, UserRole} from "./entities/user.entity";
@@ -101,9 +101,17 @@ export class UserService  {
         return await this.userRepository.findOneBy({mail});
     }
 
+
+    /**
+     * activacion de usuario
+     * @param id
+     */
     async activarUser(id:number){
         const user = await this.userRepository.findOneBy({id});
 
+        if (!user) {
+            throw new NotFoundException(`El usuario con el id no existe`);
+        }
         user.isValidated = true;
         return await this.userRepository.save(user);
 

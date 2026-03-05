@@ -7,7 +7,7 @@ import {PassportModule} from "@nestjs/passport";
 import * as process from "node:process";
 
 @Module({
-  imports: [UserModule,PassportModule,JwtModule.register({secret:process.env.JWTsecret,signOptions:{expiresIn:"60s"}})],
+  imports: [UserModule,PassportModule,JwtModule.register({secret:process.env.JWTsecret,signOptions:{expiresIn:"1h"}})],
   controllers: [AuthController],
   providers: [AuthService],
 
