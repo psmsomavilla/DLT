@@ -17,9 +17,9 @@ export class SeedService implements OnModuleInit {
 
   private async Seed() {
 
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPass = process.env.ADMIN_PASSWORD;
-    const adminName = process.env.ADMIN_NAME;
+    const adminEmail = process.env.adminEmail;
+    const adminPass = process.env.adminPass;
+    const adminName = process.env.adminName;
 
 
     // Validamos que existan las variables en el .env
