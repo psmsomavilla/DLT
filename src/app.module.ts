@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {AuthModule} from "./auth/auth.module";
 import {UserModule} from "./users/user.module";
-import { SeedModule } from './seed/seed.module';
 import * as process from "node:process";
+import {SeedModule} from "./seed/seed.module";
+import {ConfigModule} from "@nestjs/config";
 
 
 
@@ -14,13 +15,16 @@ import * as process from "node:process";
  */
 @Module({
   imports: [
+      ConfigModule.forRoot({
+        isGlobal: true,
+      }),
     TypeOrmModule.forRoot({ // traduce el codigo a sql y al revés
       type: 'postgres',
       host: process.env.dbHost,
       port: Number(process.env.dbPort),
       username: process.env.dbUsername,
       password: process.env.dbPass,
-      database: process.env.dbDatabase,
+      database: process.env.dbName,
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -28,7 +32,6 @@ import * as process from "node:process";
       AuthModule,
       UserModule,
       SeedModule,
-
 
   ],
 })

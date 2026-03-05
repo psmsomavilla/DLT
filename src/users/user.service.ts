@@ -15,11 +15,10 @@ export class UserService  {
     // ahora tenemos acceso a la tabla User
 
 
-
-
-
-
-
+    /**
+     * crea el admin
+     * @param adminData
+     */
     async createAdmin(adminData: Partial<User>) {
         const newAdmin = this.userRepository.create(adminData);
         return await this.userRepository.save(newAdmin);
@@ -45,17 +44,28 @@ export class UserService  {
 
      }
 
-
+    /**
+     * actuliza un usuario
+     * @param id
+     * @param updateData
+     */
     async update(id: number, updateData: Partial<User>) {
         await this.userRepository.update(id, updateData);
         return this.userRepository.findOneBy({ id });
     }
 
+    /**
+     * borra un usuario
+     * @param id
+     */
     async remove(id: number) {
         return await this.userRepository.delete(id);
     }
 
-
+    /**
+     * crea un usuario
+     * @param createUserDto
+     */
     async create(createUserDto: CreateUserDto) {
 
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -65,7 +75,7 @@ export class UserService  {
             name: createUserDto.name,
             mail: createUserDto.mail,
             password: hashedPassword,
-            role: (createUserDto.role as unknown as UserRole) || UserRole.none,
+            role: (createUserDto.role as unknown as UserRole) || UserRole.user,
             isValidated: false
         });
 
@@ -73,6 +83,14 @@ export class UserService  {
         return await this.userRepository.save(newUser);
     }
 
+    /**
+     * busca por id un usuario
+     * @param id
+     */
+    async findOne(id: number) {
+        const user = await this.userRepository.findOneBy({ id });
+        return user;
+    }
 
 
 }

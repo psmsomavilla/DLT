@@ -37,6 +37,16 @@ export class UserController {
         return await this.userService.create(createUserDto);
     }
 
+
+    /**
+     * Busca un usuario por su ID
+     */
+    @Get(':id')
+    async findOne(@Param('id') id: string) {
+        return await this.userService.findOne(+id);
+    }
+
+
     /**
      * editar usuario
      * @param id
@@ -47,7 +57,10 @@ export class UserController {
         return await  this.userService.update(+id,updateData);
     }
 
-
+    /**
+     * borra un usuario
+     * @param id
+     */
     @Delete(':id')
     async delete(@Param('id') id: string) {
         return await  this.userService.remove(+id);

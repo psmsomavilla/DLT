@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { UserModule } from '../users/user.module';
 import { SeedService } from './seed.service';
-import {ConfigModule} from "@nestjs/config";
-import {UserModule} from "../users/user.module";
 
 @Module({
-  imports: [
-      UserModule,
-      ConfigModule,
-  ],
-
-  providers: [SeedService],
+    imports: [
+        UserModule,
+        ConfigModule
+    ],
+    providers: [SeedService],
 })
+
 export class SeedModule {}
