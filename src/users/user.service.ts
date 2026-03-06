@@ -35,6 +35,8 @@ export class UserService  {
     }
 
 
+
+
     /**
      * valida que un email exista
      * @param mail
@@ -44,6 +46,10 @@ export class UserService  {
         select:["id","mail","password","role","isValidated","name"]});
 
      }
+
+
+
+
 
     /**
      * actuliza un usuario
@@ -55,6 +61,10 @@ export class UserService  {
         return this.userRepository.findOneBy({ id });
     }
 
+
+
+
+
     /**
      * borra un usuario
      * @param id
@@ -63,11 +73,15 @@ export class UserService  {
         return await this.userRepository.delete(id);
     }
 
+
+
+
+
     /**
      * crea un usuario
      * @param createUserDto
      */
-    async create(createUserDto: CreateUserDto) {
+    async createUser(createUserDto: CreateUserDto) {
 
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
@@ -84,14 +98,30 @@ export class UserService  {
         return await this.userRepository.save(newUser);
     }
 
+
+
     /**
      * busca por id un usuario
      * @param id
      */
-    async findOne(id: number) {
+    async findOneUserId(id: number) {
         const user = await this.userRepository.findOneBy({ id });
         return user;
     }
+
+
+    /**
+     * busca por nombre
+     * @param name
+     */
+    async findOneUserName(name:string) {
+       return await this.userRepository.findOneBy({ name });
+    }
+
+
+
+
+
 
     /**
      * metodo que busca por email
@@ -100,6 +130,9 @@ export class UserService  {
     async buscarPorMail(mail:string){
         return await this.userRepository.findOneBy({mail});
     }
+
+
+
 
 
     /**
@@ -118,6 +151,10 @@ export class UserService  {
 
 
     }
+
+
+
+
 
 
 

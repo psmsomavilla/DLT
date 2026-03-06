@@ -1,25 +1,41 @@
-import {Body, Controller, Post, UseGuards,} from '@nestjs/common';
-import {CreateUserDto} from "../users/dto/create-user.dto";
+import {Controller, Post, UseGuards, Request, Body, Get} from '@nestjs/common';
 import {AuthService} from "./auth.service";
-import {LoginDTO} from "./dto/login-auth.dto";
-import {VerifyUserDto} from "./dto/verify-user.dto";
-import {Roles} from "./decorators/roles.decorator";
-import {JwtAuthGuard} from "./guards/jwt-auth.guard";
+import {LocalAuthGuard} from "./guards/local-auth.guard";
+import {UserService} from "../users/user.service";
+import {CreateUserDto} from "../users/dto/create-user.dto";
+import {JwtAuthGuard} from "./guards/jwt-auth.guards";
+
 
 
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private userService:UserService) {}
 
-  //estas serán las rutas para los nuevos usuarios
-  @Post("login")
-  async login(@Body() loginDto:LoginDTO){
-    return this.authService.login(loginDto.mail,loginDto.password);
-  }
 
-  @Post('register')
-  register(@Body()registerDto:CreateUserDto){}
+
+@Post("auth/register")
+async register(@Body() body: CreateUserDto){
+    return this.userService.createUser(body);
+}
+
+
+
+@UseGuards(LocalAuthGuard)
+@Post("auth/login")
+async login (@Request() req){
+    return this.authService.login(req.user);
+}
+
+@UseGuards(JwtAuthGuard)
+@Get("auth/profile")
+async profile(@Request() req){
+    return await this.userService.findOneUserId(req.user.id);
+}
+
+
+
+
 
 
 

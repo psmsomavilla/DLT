@@ -1,7 +1,9 @@
-import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {ConflictException, Injectable, InternalServerErrorException, UnauthorizedException} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../users/user.service';
 import * as bcrypt from 'bcrypt';
+import {CreateUserDto} from "../users/dto/create-user.dto";
+import {User} from "../users/entities/user.entity";
 
 @Injectable()
 export class AuthService {
@@ -11,27 +13,30 @@ export class AuthService {
     ) {}
 
 
-    async login(mail: string, pass: string) {
+    async validateUser(body: CreateUserDto){
 
-        const user = await this.userService.buscarPorMail(mail);
 
-        if (!user) {
-            throw new UnauthorizedException("usuario no encontrado");
-        }
-        const iguales = await bcrypt.compare(pass, user.password);
+        try{
+            const user = await this.userService.findOneUserName(body.name);
 
-        if (iguales) {
-            const payload = { mail: user.mail, sub: user.id, role: user.role };
-            return {
-                access_token: this.jwtService.sign(payload),
-                user: {
-                    name: user.name,
-                    mail: user.mail,
-                    role: user.role
-                }
-            };
+            if(user){
+                throw new ConflictException("El nombre de usuario ya existe");
+            }
+
+            return {message: "Nombre disponible"}
+
+        }catch(error){
+            if(error instanceof Error) throw new InternalServerErrorException(error.message);
         }
 
+    }
 
+
+
+    async login(user: User) {
+        const payload = { username: user.name, sub: user.id, role: user.role };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
 }

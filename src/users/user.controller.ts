@@ -35,7 +35,7 @@ export class UserController {
      */
     @Post()
     async create(@Body() createUserDto: CreateUserDto) {
-        return await this.userService.create(createUserDto);
+        return await this.userService.createUser(createUserDto);
     }
 
 
@@ -44,9 +44,14 @@ export class UserController {
      */
     @Get(':id')
     async findOne(@Param('id') id: string) {
-        return await this.userService.findOne(+id);
+        return await this.userService.findOneUserId(+id);
     }
 
+
+    @Get(":name")
+    async findOneUserName(@Param('name') name: string) {
+        return await this.userService.findOneUserName(name);
+    }
 
     /**
      * editar usuario
@@ -66,6 +71,9 @@ export class UserController {
     async delete(@Param('id') id: string) {
         return await  this.userService.remove(+id);
     }
+
+
+
 
 
 
