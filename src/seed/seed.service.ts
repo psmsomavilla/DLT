@@ -29,7 +29,7 @@ export class SeedService implements OnModuleInit {
     }
 
     //Verificamos si ya existe el admin
-    const exists = await this.userService.validate(adminEmail);
+    const exists = await this.userService.findByEmail(adminEmail);
 
     if (!exists) {
       // Hash de la contraseña

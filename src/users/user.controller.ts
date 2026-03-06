@@ -1,9 +1,10 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {Delete, Get, Param, Patch, Put, UnauthorizedException} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {User} from "./entities/user.entity";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
-;
+import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+
 
 
 
@@ -26,7 +27,7 @@ export class UserController {
      */
     @Get('email/:email')
     async findOneByEmail(@Param('email') email: string) {
-        return await this.userService.validate(email);
+        return await this.userService.findByEmail(email);
     }
 
     /**
@@ -71,6 +72,9 @@ export class UserController {
     async delete(@Param('id') id: string) {
         return await  this.userService.remove(+id);
     }
+
+
+
 
 
 

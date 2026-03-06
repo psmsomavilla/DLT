@@ -7,7 +7,7 @@ export class RegisterAuthDto{
     mail: string;
 
     @IsNotEmpty()
-    @MaxLength(6) //
+    @MaxLength(6)
     password: string;
 
     @IsString()

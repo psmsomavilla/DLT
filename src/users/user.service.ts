@@ -6,14 +6,11 @@ import {CreateUserDto} from "./dto/create-user.dto";
 import * as bcrypt from 'bcrypt';
 
 
-
-
 // esta clase se podra compartir con otras
 @Injectable()
-export class UserService  {
+export class UserService {
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     }
-    // ahora tenemos acceso a la tabla User
 
 
     /**
@@ -26,29 +23,25 @@ export class UserService  {
     }
 
 
-
     /**
      * Metodo que sirve para que el admin pueda listar al resto de usuarios
      */
-    findAll(){
+    findAll() {
         return this.userRepository.find();
     }
-
-
 
 
     /**
      * valida que un email exista
      * @param mail
      */
-     async validate(mail:string){
-        return await this.userRepository.findOne({where:{mail},
-        select:["id","mail","password","role","isValidated","name"]});
+    async findByEmail(mail: string) {
+        return await this.userRepository.findOne({
+            where: {mail},
+            select: ["id", "mail", "password", "role", "isValidated", "name"]
+        });
 
-     }
-
-
-
+    }
 
 
     /**
@@ -58,11 +51,8 @@ export class UserService  {
      */
     async update(id: number, updateData: Partial<User>) {
         await this.userRepository.update(id, updateData);
-        return this.userRepository.findOneBy({ id });
+        return this.userRepository.findOneBy({id});
     }
-
-
-
 
 
     /**
@@ -72,9 +62,6 @@ export class UserService  {
     async remove(id: number) {
         return await this.userRepository.delete(id);
     }
-
-
-
 
 
     /**
@@ -99,13 +86,12 @@ export class UserService  {
     }
 
 
-
     /**
      * busca por id un usuario
      * @param id
      */
     async findOneUserId(id: number) {
-        const user = await this.userRepository.findOneBy({ id });
+        const user = await this.userRepository.findOneBy({id});
         return user;
     }
 
@@ -114,32 +100,25 @@ export class UserService  {
      * busca por nombre
      * @param name
      */
-    async findOneUserName(name:string) {
-       return await this.userRepository.findOneBy({ name });
+    async findOneUserName(name: string) {
+        return await this.userRepository.findOneBy({name});
     }
-
-
-
-
 
 
     /**
      * metodo que busca por email
      * @param mail
      */
-    async buscarPorMail(mail:string){
+    async buscarPorMail(mail: string) {
         return await this.userRepository.findOneBy({mail});
     }
-
-
-
 
 
     /**
      * activacion de usuario
      * @param id
      */
-    async activarUser(id:number){
+    async activarUser(id: number) {
         const user = await this.userRepository.findOneBy({id});
 
         if (!user) {
@@ -149,13 +128,7 @@ export class UserService  {
         return await this.userRepository.save(user);
 
 
-
     }
-
-
-
-
-
 
 
 }

@@ -1,7 +1,6 @@
-import {ConflictException, Injectable, InternalServerErrorException, UnauthorizedException} from '@nestjs/common';
+import {ConflictException, Injectable, InternalServerErrorException, NotFoundException,} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../users/user.service';
-import * as bcrypt from 'bcrypt';
 import {CreateUserDto} from "../users/dto/create-user.dto";
 import {User} from "../users/entities/user.entity";
 
@@ -39,4 +38,17 @@ export class AuthService {
             access_token: this.jwtService.sign(payload),
         };
     }
+
+    async verifyUserByMail(mail: string) {
+        const user = await this.userService.findByEmail(mail);
+        if (!user) throw new NotFoundException("el user no existe");
+
+        // validamos a true
+        user.isValidated = true;
+
+
+        return await this.userService.update(user.id, { isValidated: true });
+    }
+
+
 }
