@@ -6,8 +6,8 @@ import {User, UserRole} from "../users/entities/user.entity";
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
 import {Verification} from "../verification/verification.entity";
-import {RegisterDto} from "./dto/register-auth.dto";
-import {LoginDto} from "./dto/login-auth.dto";
+import {LoginDto, RegisterDto} from "./dto/register-auth.dto";
+
 
 
 @Injectable()
