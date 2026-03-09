@@ -1,12 +1,10 @@
-import {Controller, Post, UseGuards, Request, Body, Get, UnauthorizedException} from '@nestjs/common';
+import {Body, Controller, Get, Post} from '@nestjs/common';
 import {AuthService} from "./auth.service";
-import {LocalAuthGuard} from "./guards/local-auth.guard";
 import {UserService} from "../users/user.service";
-import {CreateUserDto} from "../users/dto/create-user.dto";
-import {JwtAuthGuard} from "./guards/jwt-auth.guards";
-import {ApiBody, ApiTags} from "@nestjs/swagger";
-import {LoginDTO} from "./dto/login-auth.dto";
-
+import {ApiTags} from "@nestjs/swagger";
+import {VerifyUserDto} from "./dto/verify-user.dto";
+import {Roles} from "./decorators/roles.decorator";
+import {UserRole} from "../users/entities/user.entity";
 
 
 @ApiTags('Auth')
@@ -17,34 +15,35 @@ export class AuthController {
 
 
 @Post("register")
-async register(@Body() body: CreateUserDto){
-    return this.userService.createUser(body);
+async register(@Body() registerDto: RegisterDto){
+    return this.authService.register(registerDto);
 }
 
 
-@ApiBody({type: LoginDTO})
-@UseGuards(LocalAuthGuard)
+
 @Post("login")
-async login (@Request() req){
-    return this.authService.login(req.user);
+async login (@Body() loginDto:LoginDto){
+
 }
 
-@UseGuards(JwtAuthGuard)
-@Get("profile")
-async profile(@Request() req){
-    return await this.userService.findOneUserId(req.user.id);
+
+@Get("unverified")
+@Roles(UserRole.admin)
+async getUnverified(){
+   return this.userService.findPendingUsers();
 }
 
-@Post('verify')
-@UseGuards(JwtAuthGuard)
-async verifyUser(@Body('mail') mail: string, @Request() req) {
+@Post("verify")
+@Roles(UserRole.admin)
+async verifyUser(@Body()verifyDto:VerifyUserDto){
+      return this.authService.verifyUser(verifyDto);
+}
 
-  if (req.user.role !== 'admin') {
-      throw new UnauthorizedException("Solo el admin puede verificar cuentas");
-    }
-  return this.authService.verifyUserByMail(mail);
-  }
-
+@Post("reject")
+@Roles(UserRole.admin)
+async rejectUser(@Body() rejectDto:RejectUserDto){
+      return this.authService.rejectUser(rejectDto);
+}
 
 
 
