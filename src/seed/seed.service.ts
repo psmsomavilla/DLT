@@ -16,26 +16,18 @@ export class SeedService implements OnModuleInit {
   }
 
   private async Seed() {
-
     const adminEmail = process.env.adminEmail;
     const adminPass = process.env.adminPass;
     const adminName = process.env.adminName;
 
+    if (!adminEmail || !adminPass) return;
 
-    // Validamos que existan las variables en el .env
-    if (!adminEmail || !adminPass) {
-      console.error("error");
-      return;
-    }
-
-    //Verificamos si ya existe el admin
     const exists = await this.userService.findByEmail(adminEmail);
 
     if (!exists) {
-      // Hash de la contraseña
+
       const hashedPass = await bcrypt.hash(adminPass, 10);
 
-      //Creamos el admin
       await this.userService.createAdmin({
         mail: adminEmail,
         password: hashedPass,

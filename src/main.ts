@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
@@ -11,6 +13,7 @@ async function bootstrap() {
       .setTitle("TECHNICAL TEST DLTCAT")
       .setDescription("API DE TECHNICAL TEST DLTCAT")
       .setVersion("1.0")
+      .addBearerAuth()
       .build()
 
 

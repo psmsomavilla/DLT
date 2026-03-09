@@ -17,6 +17,7 @@ import {ConfigModule} from "@nestjs/config";
   imports: [
       ConfigModule.forRoot({
         isGlobal: true,
+        envFilePath: '.env',
       }),
     TypeOrmModule.forRoot({ // traduce el codigo a sql y al revés
       type: 'postgres',

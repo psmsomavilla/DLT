@@ -1,16 +1,19 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
-import {UserService} from "../users/user.service";
-import {ApiTags} from "@nestjs/swagger";
-import {VerifyUserDto} from "./dto/verify-user.dto";
+import {RejectUserDto, VerifyUserDto} from "./dto/verify-user.dto";
 import {Roles} from "./decorators/roles.decorator";
 import {UserRole} from "../users/entities/user.entity";
+import {LoginDto, RegisterDto} from "./dto/register-auth.dto";
+import { AuthGuard } from "./guards/auth.guard";
+import { RolesGuard } from "./guards/roles.guard";
+import {ApiBearerAuth} from "@nestjs/swagger";
 
 
-@ApiTags('Auth')
+
+
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private userService:UserService) {}
+  constructor(private readonly authService: AuthService) {}
 
 
 
@@ -23,14 +26,15 @@ async register(@Body() registerDto: RegisterDto){
 
 @Post("login")
 async login (@Body() loginDto:LoginDto){
-
+    return this.authService.login(loginDto);
 }
 
-
+@ApiBearerAuth()
 @Get("unverified")
+@UseGuards(AuthGuard,RolesGuard)
 @Roles(UserRole.admin)
 async getUnverified(){
-   return this.userService.findPendingUsers();
+   return this.authService.getUnverifiedUsers();
 }
 
 @Post("verify")

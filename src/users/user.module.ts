@@ -9,7 +9,7 @@ import {UserController} from "./user.controller";
     imports: [TypeOrmModule.forFeature([User])], // vincula la entidad User a nuestra bd para poder verla
     providers: [UserService],
     controllers: [UserController],
-    exports: [UserService],
+    exports: [TypeOrmModule,UserService],
 })
 export class UserModule {}
 
