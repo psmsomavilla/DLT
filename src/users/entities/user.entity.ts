@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column ,CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 export enum UserRole{
-    none = 'none', // usuario no registrado
     user = 'user',
     admin = 'admin',
 
@@ -22,7 +21,7 @@ export class User {
     @Column({nullable:false})
     password: string;
 
-    @Column({enum:UserRole,default:UserRole.none}) // solo acepta valores del enum,si se crea un usuario sin rol pondrá None
+    @Column({enum:UserRole,default:UserRole.user}) // solo acepta valores del enum,si se crea un usuario sin rol pondrá None
     role: UserRole;
 
     @Column({default:"es"})
