@@ -9,7 +9,7 @@ export class RegisterDto {
     name: string;
 
     @IsString()
-    @MinLength(6, { message: "la conrtaseña debe de tener 6 caracteres minimo" })
+    @MinLength(6, { message: "la contraseña debe de tener 6 caracteres minimo" })
     password: string;
 }
 
