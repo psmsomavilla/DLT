@@ -1,4 +1,4 @@
-import {IsEmail, IsNotEmpty, IsString, Matches, MATCHES, MaxLength, MinLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength} from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
 
 export class RegisterDto {
@@ -11,11 +11,11 @@ export class RegisterDto {
     @IsString()
     name: string;
 
-    @ApiProperty({example:"1a34B6789/23"})
+    @ApiProperty({example:"Carlas12345!"})
     @IsString()
-    @MinLength(12, { message: "la contraseña debe de tener 12 caracteres minimo" })
-    @MaxLength(12,{message:"la contraseña debe de tener 12 caracteres máximo"})
-    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+    @MinLength(10, { message: "la contraseña debe de tener 10 caracteres minimo" })
+    @MaxLength(15,{message:"la contraseña debe de tener menos de 15 caracteres"})
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/)
     password: string;
 }
 
@@ -25,11 +25,11 @@ export class LoginDto {
     @IsString()
     mail: string;
 
-    @ApiProperty({example:"1234Admin/"})
+    @ApiProperty({example:"Admin12345!"})
     @IsNotEmpty()
     @MinLength(10,{message:"la contraseña debe de tener 10 caracteres minimo"})
-    @MaxLength(10,{message:"la contraseña debe de tener 10 caracteres máximo"})
-    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+    @MaxLength(15,{message:"la contraseña debe de tener 15 caracteres máximo"})
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/)
     password: string;
 }
 

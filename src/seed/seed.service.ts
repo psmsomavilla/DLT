@@ -37,7 +37,13 @@ export class SeedService implements OnModuleInit {
       });
       console.log("admin creado");
     } else {
-      console.log("admin ya existe.");
+      const hashedPass = await bcrypt.hash(adminPass, 10);
+      exists.password = hashedPass;
+      exists.isValidated = true;
+
+      await this.userService.update(exists.id, exists);
+      console.log("admin ya existe");
+
     }
   }
 
