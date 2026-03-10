@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterDto {
-    @IsEmail({}, { message: "el correo debe tener un formato valido"})
+    @IsEmail({}, { message: "el correo debe tener un formato valido tipo correo@correo.com"})
     mail: string;
 
     @IsNotEmpty()
@@ -14,7 +14,7 @@ export class RegisterDto {
 }
 
 export class LoginDto {
-    @IsEmail()
+    @IsEmail({}, { message: "el correo debe tener un formato valido tipo correo@correo.com"})
     mail: string;
 
     @IsNotEmpty()

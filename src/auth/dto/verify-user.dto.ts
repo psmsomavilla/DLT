@@ -2,7 +2,7 @@ import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 
 
 export class VerifyUserDto {
-    @IsEmail({},{message: "El correo debe tener un formato válido"})
+    @IsEmail({},{message: "El correo debe tener un formato válido tipo correo@correo.com"})
     @IsNotEmpty({message:"El correo no puede estar vacio"})
     mail:string;
 
@@ -15,7 +15,7 @@ export class VerifyUserDto {
 }
 
 export class RejectUserDto {
-    @IsEmail({}, { message: "El correo debe tener un formato válido" })
+    @IsEmail({}, { message: "El correo debe tener un formato válido tipo correo@correo.com" })
     @IsNotEmpty({ message: "El correo no puede estar vacío" })
     mail: string;
 }
