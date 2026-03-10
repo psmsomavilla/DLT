@@ -8,7 +8,7 @@ export enum UserRole{
 }
 
 //Creación tabla user
-@Entity()
+@Entity("users")
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
