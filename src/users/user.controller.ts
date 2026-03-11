@@ -1,4 +1,4 @@
-import {Delete, Get, Param, Patch, Put, UnauthorizedException} from "@nestjs/common";
+import {Delete, Get, Param, Put, } from "@nestjs/common";
 import {UserService} from "./user.service";
 import {User} from "./entities/user.entity";
 import {CreateUserDto} from "./dto/create-user.dto";
