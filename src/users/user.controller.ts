@@ -3,11 +3,12 @@ import {UserService} from "./user.service";
 import {User} from "./entities/user.entity";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
-import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
+import {ApiTags} from "@nestjs/swagger";
 
 
 
-
+@ApiTags("users - Consulta de información y borrado de usuarios")
 @Controller("users")
 export class UserController {
     constructor(private readonly userService: UserService) {

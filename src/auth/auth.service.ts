@@ -59,13 +59,13 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new NotFoundException("usuario no encontrado");
+            throw new NotFoundException("Usuario no encontrado");
         }
 
 
         await this.userRepository.softRemove(user);
 
-        return { message: "usuario rechazado y eliminado" };
+        return { message: "Usuario rechazado y eliminado" };
     }
 
     async register(registerDto: RegisterDto) {
@@ -74,7 +74,7 @@ export class AuthService {
         // verificamos si existe
         const existingUser = await this.userRepository.findOne({ where: { mail } });
         if (existingUser) {
-            throw new BadRequestException("correo ya registrado");
+            throw new BadRequestException("Correo ya registrado");
         }
 
 
@@ -115,12 +115,12 @@ export class AuthService {
 
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            throw new UnauthorizedException("datos incorrectos");
+            throw new UnauthorizedException("Datos incorrectos");
         }
 
 
         if (!user.isValidated) {
-            throw new UnauthorizedException("cuenta aún no validada");
+            throw new UnauthorizedException("Cuenta aún no validada");
         }
 
 
