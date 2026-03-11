@@ -6,7 +6,7 @@ export class Cat {
     id: number;
 
     @Column()
-    externalId: number;
+    externalId: string;
 
     @Column()
     url: string;

@@ -2,12 +2,14 @@ import {Injectable, Logger} from '@nestjs/common';
 import {HttpService} from "@nestjs/axios";
 import {catchError, firstValueFrom} from "rxjs";
 import {AxiosError} from "axios";
+import {Repository} from "typeorm";
+import {Cat} from "./entities/cat.entity";
 
 @Injectable()
 export class CatsService {
   private readonly logger = new Logger(CatsService.name);
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService,private readonly catRepository: Repository<Cat>) {}
 
   async findAll() {
 
@@ -20,7 +22,6 @@ export class CatsService {
             }),
         ),
     );
-
 
     return data;
   }
