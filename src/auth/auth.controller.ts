@@ -11,17 +11,9 @@ import {ApiBearerAuth, ApiOperation, ApiTags} from "@nestjs/swagger";
 
 
 @ApiTags("auth - Autenticación de usuarios")
-@Controller('auth')
+@Controller("api/v1/auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-
-
-@Post("register")
-@ApiOperation({summary: "Registro de usuario nuevo, debe ser verificado antes de usar la plataforma"})
-async register(@Body() registerDto: RegisterDto){
-    return this.authService.register(registerDto);
-}
 
 
 
@@ -30,6 +22,22 @@ async register(@Body() registerDto: RegisterDto){
 async login (@Body() loginDto:LoginDto){
     return this.authService.login(loginDto);
 }
+
+
+@Post("register")
+@ApiOperation({summary: "Registro de usuario nuevo, debe ser verificado antes de usar la plataforma"})
+async register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
+}
+
+
+@Post("reject")
+@ApiOperation({summary:"SUPER_ADMIN: Rechaza todas las invitaciones pendientes asociadas a un email"})
+@Roles(UserRole.admin)
+async rejectUser(@Body() rejectDto:RejectUserDto) {
+    return this.authService.rejectUser(rejectDto);
+}
+
 
 @ApiBearerAuth()
 @Get("unverified")
@@ -47,12 +55,7 @@ async verifyUser(@Body()verifyDto:VerifyUserDto){
       return this.authService.verifyUser(verifyDto);
 }
 
-@Post("reject")
-@ApiOperation({summary:"SUPER_ADMIN: Rechaza todas las invitaciones pendientes asociadas a un email"})
-@Roles(UserRole.admin)
-async rejectUser(@Body() rejectDto:RejectUserDto){
-      return this.authService.rejectUser(rejectDto);
-}
+
 
 
 

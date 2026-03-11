@@ -12,10 +12,10 @@ export class CatsService {
 
   constructor(private readonly httpService: HttpService,@InjectRepository(Cat)private readonly catRepository: Repository<Cat>) {}
 
-  async findAll() {
+  async bringAndSave(limit: number) {
 
     const { data } = await firstValueFrom(
-        this.httpService.get('https://api.thecatapi.com/v1/images/search').pipe(
+        this.httpService.get(`https://api.thecatapi.com/v1/images/search?limit=${limit}`).pipe(
 
             catchError((error: AxiosError) => {
               this.logger.error(error.response?.data);
@@ -23,19 +23,26 @@ export class CatsService {
             }),
         ),
     );
-      const externalData = data[0];
 
-      const newCat = this.catRepository.create({
-          externalId: externalData.id,
-          url: externalData.url,
-          width: externalData.width,
-          height: externalData.height
-      });
+      const newCat = data.map(cat => this.catRepository.create({
+          externalId: cat.id,
+          url: cat.url,
+          width: cat.width,
+          height: cat.height
+      }));
 
-      await this.catRepository.save(newCat);
+      return await this.catRepository.save(newCat);
 
-    return data;
+
   }
+
+    async remove(id: number) {
+        return await this.catRepository.softDelete(id);
+    }
+
+    async findAll() {
+        return await this.catRepository.find();
+    }
 
 
 
