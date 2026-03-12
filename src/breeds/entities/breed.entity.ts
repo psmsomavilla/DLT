@@ -1,4 +1,13 @@
-import {Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
+import {Cat} from "../../cats/entities/cat.entity";
 
 @Entity()
 export class Breed {
@@ -32,6 +41,8 @@ export class Breed {
     @DeleteDateColumn()
     deleted_at: Date;
 
+    @ManyToMany(() => Cat, (cat) => cat.breeds)
+    cats: Cat[];
 
 
 
