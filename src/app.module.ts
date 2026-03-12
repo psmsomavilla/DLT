@@ -6,6 +6,8 @@ import * as process from "node:process";
 import {SeedModule} from "./seed/seed.module";
 import {ConfigModule} from "@nestjs/config";
 import { CatsModule } from './cats/cats.module';
+import { BreedModule } from './breed/breed.module';
+import { BreedsModule } from './breeds/breeds.module';
 
 
 
@@ -35,6 +37,8 @@ import { CatsModule } from './cats/cats.module';
       UserModule,
       SeedModule,
       CatsModule,
+      BreedModule,
+      BreedsModule,
 
   ],
 })

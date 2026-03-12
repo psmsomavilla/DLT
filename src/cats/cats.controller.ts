@@ -4,11 +4,11 @@ import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {UserRole} from "../users/entities/user.entity";
 import {Roles} from "../auth/decorators/roles.decorator";
 import {RolesGuard} from "../auth/guards/roles.guard";
-import {AuthGuard} from "@nestjs/passport";
+import {AuthGuard} from "../auth/guards/auth.guard";
+
 
 @ApiTags("cat - Módulo para gestionar datos de gatos")
 @ApiBearerAuth()
-@UseGuards(AuthGuard,RolesGuard)
 @Controller('cat')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
@@ -21,12 +21,14 @@ export class CatsController {
 
   @Post("request")
   @Roles(UserRole.admin)
+  @UseGuards(AuthGuard,RolesGuard)
   async requestMany(@Query("limit") limit:number){
     return this.catsService.bringAndSave(limit);
   }
 
   @Delete(":id")
   @Roles(UserRole.admin)
+  @UseGuards(AuthGuard,RolesGuard)
   async remove(@Param("id") id:string){
     return this.catsService.remove(+id);
   }
