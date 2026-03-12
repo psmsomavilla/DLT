@@ -29,7 +29,7 @@ export class Cat {
     deleted_at: Date;
 
 
-    @ManyToMany(() =>Breed)
+    @ManyToMany(() => Breed, (breed) => breed.cats)
     @JoinTable({name:"cat_breed"}) // esto creara la tabla intermedia
     breeds: Breed[];
 
