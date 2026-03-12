@@ -63,7 +63,7 @@ export class CatsService {
     }
 
     async findAll() {
-        return await this.catRepository.find();
+        return await this.catRepository.find({relations:{breeds:true}});
     }
 
 
