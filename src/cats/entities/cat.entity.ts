@@ -1,4 +1,5 @@
-import {Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,ManyToMany,JoinTable} from "typeorm";
+import {Breed} from "../../breeds/entities/breed.entity";
 
 @Entity()
 export class Cat {
@@ -28,6 +29,9 @@ export class Cat {
     deleted_at: Date;
 
 
+    @ManyToMany(() =>Breed)
+    @JoinTable({name:"cat_breed"}) // esto creara la tabla intermedia
+    breeds: Breed[];
 
 }
 
