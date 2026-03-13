@@ -8,7 +8,6 @@ import {ConfigModule} from "@nestjs/config";
 import { CatsModule } from './cats/cats.module';
 import { BreedsModule } from './breeds/breeds.module';
 import { PetsModule } from './pets/pets.module';
-import { PetsModule } from './pets/pets.module';
 
 
 
