@@ -21,12 +21,10 @@ export class AuthService {
     ) {}
 
     async getUnverifiedUsers() {
-        return this.userRepository.find({
-            where: {
-                isValidated: false
-            },
+        return this.verificationRepository.find({
 
-            select: ["id","mail","name","created_at","isValidated"],
+            select: ["id","targetEmail","name","verificationToken","createdAt"],
+            order:{createdAt:"DESC"}
         });
     }
 
@@ -40,17 +38,25 @@ export class AuthService {
             throw new NotFoundException("token o email no coinciden");
         }
 
-        const user = await this.userRepository.findOne({ where: { mail: verifyDto.mail } });
-        if (!user) throw new NotFoundException("Usuario no encontrado ");
+        const newUser = this.userRepository.create({
+            mail: pending.targetEmail,
+            name: pending.name,
+            password: pending.password,
+            role: UserRole.user,
+            isValidated: true,
+        });
 
-        user.isValidated = true;
-        user.role = UserRole.user;
-        await this.userRepository.save(user);
-
-        return { message: "Usuario validado con éxito" };
+        await this.userRepository.save(newUser);
 
 
+        await this.verificationRepository.remove(pending);
+
+        return { message: "Usuario activado correctamente" };
     }
+
+
+
+
 
 
     async rejectUser(rejectDto: RejectUserDto) {
@@ -69,43 +75,34 @@ export class AuthService {
     }
 
     async register(registerDto: RegisterDto) {
-        const { mail, password, name } = registerDto;
+        const {mail, password, name} = registerDto;
 
         // verificamos si existe
-        const existingUser = await this.userRepository.findOne({ where: { mail } });
+        const existingUser = await this.userRepository.findOne({where: {mail}});
         if (existingUser) {
             throw new BadRequestException("Correo ya registrado");
         }
 
+        const existingPending = await this.verificationRepository.findOne({where: {targetEmail: mail}});
+        if (existingPending) throw new BadRequestException("Ya existe una solicitud pendiente para este correo");
 
         const hashedPassword = await bcrypt.hash(password, 10);
-
-
-        const newUser = this.userRepository.create({
-            mail,
-            name,
-            password: hashedPassword,
-            role: UserRole.none,
-        });
-
-        await this.userRepository.save(newUser);
-
         const generatedToken = Math.random().toString(36).substring(2, 8).toUpperCase();
 
 
-        const newVerification = this.verificationRepository.create({
+        const newRequest = this.verificationRepository.create({
             targetEmail: mail,
             verificationToken: generatedToken,
             name: name,
             password: hashedPassword,
         });
-        await this.verificationRepository.save(newVerification);
 
+        await this.verificationRepository.save(newRequest);
 
         return {
-            message: "Admin debe validar tu usuario",
-            debugToken: generatedToken
-        };
+            message: "Solicitud enviada al administrador",
+            tokenGenerado: generatedToken
+        }
     }
 
     async login(loginDto: LoginDto) {
