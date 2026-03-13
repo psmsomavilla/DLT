@@ -9,7 +9,7 @@ import {AuthGuard} from "../auth/guards/auth.guard";
 
 @ApiTags("cat - Módulo para gestionar datos de gatos")
 @ApiBearerAuth()
-@Controller('cat')
+@Controller("cat")
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
