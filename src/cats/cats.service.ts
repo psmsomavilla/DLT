@@ -18,7 +18,7 @@ export class CatsService {
     async bringAndSave(limit: number) {
         const apikey = process.env.theCatApiKey
         const url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&has_breeds=1`;
-
+        // Todo revisar el limit , falla en algunas wikiUrl
 
         const {data} = await firstValueFrom(
             this.httpService.get(url, {headers: {"x-api-key": apikey}}));

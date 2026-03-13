@@ -17,5 +17,5 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  #carpeta donde se guarda todo por si acaso
+  #carpeta donde se guarda por si acaso
   postgres_data:
