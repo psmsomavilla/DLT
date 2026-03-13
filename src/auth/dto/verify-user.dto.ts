@@ -8,7 +8,7 @@ export class VerifyUserDto {
     @IsNotEmpty({message:"El correo no puede estar vacio"})
     mail:string;
 
-
+    @ApiProperty({example:"verificationToken:"})
     @IsString()
     @IsNotEmpty({message:"El token de verificacion es necesario"})
     verificationToken:string;

@@ -15,7 +15,8 @@ export class RegisterDto {
     @IsString()
     @MinLength(10, { message: "La contraseña debe de tener 10 caracteres minimo" })
     @MaxLength(15,{message:"La contraseña debe de tener menos de 15 caracteres"})
-    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/)
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/, {message: "La contraseña debe tener al menos una minúscula," +
+            "una mayúscula, un número y un carácter especial"})
     password: string;
 }
 
@@ -29,7 +30,8 @@ export class LoginDto {
     @IsNotEmpty()
     @MinLength(10,{message:"La contraseña debe de tener 10 caracteres minimo"})
     @MaxLength(15,{message:"La contraseña debe de tener 15 caracteres máximo"})
-    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/)
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d|.*\W).+$/,{message: "La contraseña debe tener al menos una minúscula," +
+            "una mayúscula, un número y un carácter especial"})
     password: string;
 }
 
